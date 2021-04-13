@@ -9,6 +9,35 @@ namespace MartianRobot.ConsoleApp
 {
     class Program
     {
+        private static void ShowMovementStringText()
+        {
+            Console.WriteLine("Enter the movement string. Multiple characters required.");
+            Console.WriteLine(" - E = Rotate left");
+            Console.WriteLine(" - D = Rotate right");
+            Console.WriteLine(" - M = Move ahead");
+        }
+
+        private static void ShowFacingDirectionText()
+        {
+            Console.WriteLine("Enter the intial robot facing direction. ");
+            Console.WriteLine(" - N = North");
+            Console.WriteLine(" - S = South");
+            Console.WriteLine(" - L = East");
+            Console.WriteLine(" - O = West.");
+        }
+
+        private static void ShowYPositionText()
+        {
+            Console.WriteLine("Enter the intial robot Y position. ");
+            Console.WriteLine(" - Must be a positive integer number smaller than the grid height.");
+        }
+
+        private static void ShowXPositionText()
+        {
+            Console.WriteLine("Enter the intial robot X position.");
+            Console.WriteLine(" - Must be a positive integer number smaller than the grid width.");
+        }
+
         private static void ShowErrorText(string errorMessage)
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -16,6 +45,7 @@ namespace MartianRobot.ConsoleApp
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.ReadLine();
         }
+
 
         static void Main(string[] args)
         {
@@ -42,20 +72,15 @@ namespace MartianRobot.ConsoleApp
                 }
 
                 Console.WriteLine($"@=@=@=@=@=@=@=@=@ GRID = {gridWidth}x{gridHeight} @=@=@=@=@=@=@=@=@");
-
-
-                Console.WriteLine("Enter the intial robot X position.");
-                Console.WriteLine(" - Must be a positive integer number smaller than the grid width.");
-                int initialX; 
-                if(!int.TryParse(Console.ReadLine(), out initialX) || initialX < 0)
+                ShowXPositionText();
+                int initialX;
+                if (!int.TryParse(Console.ReadLine(), out initialX) || initialX < 0)
                 {
                     ShowErrorText("Error: Invalid initial X Position! Try again with a positive integer number.");
                     continue;
                 }
 
-
-                Console.WriteLine("Enter the intial robot Y position. ");
-                Console.WriteLine(" - Must be a positive integer number smaller than the grid height.");
+                ShowYPositionText();
                 int initialY;
                 if (!int.TryParse(Console.ReadLine(), out initialY) || initialY < 0)
                 {
@@ -63,11 +88,7 @@ namespace MartianRobot.ConsoleApp
                     continue;
                 }
 
-                Console.WriteLine("Enter the intial robot facing direction. ");
-                Console.WriteLine(" - N = North");
-                Console.WriteLine(" - S = South");
-                Console.WriteLine(" - L = East");
-                Console.WriteLine(" - O = West.");
+                ShowFacingDirectionText();
                 string initialDirection = Console.ReadLine().ToUpperInvariant();
 
                 if (initialDirection != "N" && initialDirection != "s" && initialDirection != "L" && initialDirection != "O")
@@ -78,12 +99,7 @@ namespace MartianRobot.ConsoleApp
 
                 Robot robot = new Robot(initialX, initialY, initialDirection);
                 Console.WriteLine("New robot initialized with values:" + robot.AtributesToString());
-
-
-                Console.WriteLine("Enter the movement string. Multiple characters required.");
-                Console.WriteLine(" - E = Rotate left");
-                Console.WriteLine(" - D = Rotate right");
-                Console.WriteLine(" - M = Move ahead");
+                ShowMovementStringText();
                 string movementString = Console.ReadLine();
 
                 foreach (char c in movementString.ToUpperInvariant())
@@ -98,7 +114,7 @@ namespace MartianRobot.ConsoleApp
                             robot.rotateRight();
                             break;
                         case 'M':
-                            robot.moveAhead(gridWidth,gridHeight);
+                            robot.moveAhead(gridWidth, gridHeight);
                             break;
                         default:
                             Console.WriteLine("Invalid character. Ignoring... ");
@@ -111,7 +127,7 @@ namespace MartianRobot.ConsoleApp
                 Console.WriteLine("@=@=@=@=@=@=@=@=@  @=@=@=@=@=@=@=@=@");
                 Console.WriteLine("Robot final position:" + robot.AtributesToString());
                 Console.WriteLine("Do you want to initialize a robot? \n  Y - Yes\n  Any other key - Exit");
-                if(Console.ReadLine().ToUpperInvariant() != "Y")
+                if (Console.ReadLine().ToUpperInvariant() != "Y")
                     break;
             }
         }
