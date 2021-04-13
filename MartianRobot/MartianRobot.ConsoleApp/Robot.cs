@@ -19,24 +19,28 @@ namespace MartianRobot.ConsoleApp
             this.facingDirection = facingDirection;
         }
 
-        public void moveAhead()
+        public void moveAhead(int width, int height)
         {
             switch (facingDirection.ToUpper())
             {
                 case "N":
-                    yPosition++;
+                    if(yPosition < height)
+                        yPosition++;
                     break;
 
                 case "S":
-                    yPosition--;
+                    if(yPosition > 0)
+                        yPosition--;
                     break;
 
                 case "L":
-                    xPosition--;
+                    if(xPosition > 0)
+                        xPosition--;
                     break;
 
                 case "O":
-                    xPosition++;
+                    if(xPosition < width)
+                        xPosition++;
                     break;
 
             }
