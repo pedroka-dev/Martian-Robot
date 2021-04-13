@@ -34,13 +34,13 @@ namespace MartianRobot.ConsoleApp
                     break;
 
                 case "L":
-                    if(xPosition > 0)
-                        xPosition--;
+                    if (xPosition < width)
+                        xPosition++;
                     break;
 
                 case "O":
-                    if(xPosition < width)
-                        xPosition++;
+                    if (xPosition > 0)
+                       xPosition--;
                     break;
 
             }
@@ -51,21 +51,20 @@ namespace MartianRobot.ConsoleApp
             switch (facingDirection.ToUpper())
             {
                 case "N":
-                    facingDirection = "L";
-                    break;
-
-                case "S":
                     facingDirection = "O";
                     break;
 
+                case "S":
+                    facingDirection = "L";
+                    break;
+
                 case "L":
-                    facingDirection = "S";
+                    facingDirection = "N";
                     break;
 
                 case "O":
-                    facingDirection = "N";
+                    facingDirection = "S";
                     break;
-                
             }
         }
 
@@ -74,21 +73,20 @@ namespace MartianRobot.ConsoleApp
             switch (facingDirection.ToUpper())
             {
                 case "N":
-                    facingDirection = "O";
-                    break;
-
-                case "S":
                     facingDirection = "L";
                     break;
 
-                case "L":
-                    facingDirection = "N";
+                case "S":
+                    facingDirection = "O";
                     break;
 
-                case "O":
+                case "L":
                     facingDirection = "S";
                     break;
 
+                case "O":
+                    facingDirection = "N";
+                    break;
             }
         }
 
