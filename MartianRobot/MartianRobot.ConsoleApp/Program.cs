@@ -20,22 +20,17 @@ namespace MartianRobot.ConsoleApp
         private static void ShowFacingDirectionText()
         {
             Console.WriteLine("Enter the intial robot facing direction. ");
-            Console.WriteLine(" - N = North");
-            Console.WriteLine(" - S = South");
-            Console.WriteLine(" - L = East");
-            Console.WriteLine(" - O = West.");
+            
         }
 
-        private static void ShowYPositionText()
+        private static void ShowInitialPositionText()
         {
-            Console.WriteLine("Enter the intial robot Y position. ");
-            Console.WriteLine(" - Must be a positive integer number smaller than the grid height.");
-        }
-
-        private static void ShowXPositionText()
-        {
-            Console.WriteLine("Enter the intial robot X position.");
-            Console.WriteLine(" - Must be a positive integer number smaller than the grid width.");
+            Console.WriteLine("Enter the intial robot X position, Y position and the facing direction direction (Formula = X Y Direction):");
+            Console.WriteLine(" - X and Y must be a positive integer number smaller than the grid width.");
+            Console.WriteLine(" - Direction N = North");
+            Console.WriteLine(" - Direction S = South");
+            Console.WriteLine(" - Direction L = East");
+            Console.WriteLine(" - Direction O = West.");
         }
 
         private static void ShowErrorText(string errorMessage)
@@ -55,47 +50,62 @@ namespace MartianRobot.ConsoleApp
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("@=@=@=@=@=@=@=@=@ MARTIAN ROBOT @=@=@=@=@=@=@=@=@");
 
-                Console.WriteLine("Enter the width of the movement grid:");
-                int gridWidth;
-                if (!int.TryParse(Console.ReadLine(), out gridWidth) || gridWidth <= 0)
+                Console.WriteLine("Enter the size of the the movement grid. (Formula = X Y):");
+
+                string gridArea = Console.ReadLine();
+                string[] splitGridArea = gridArea.Split(' ');
+
+                if(splitGridArea.Length != 2)
+                {
+                    ShowErrorText("Error: Invalid number of arguments Try again with the Formula = X Y.");
+                    continue;
+                }
+
+                if (!int.TryParse(splitGridArea[0], out int gridWidth) || gridWidth <= 0)
                 {
                     ShowErrorText("Error: Invalid grid width value! Try again with a integer number bigger than zero.");
                     continue;
                 }
 
-                Console.WriteLine("Enter the height of the movement grid:");
-                int gridHeight;
-                if (!int.TryParse(Console.ReadLine(), out gridHeight) || gridHeight <= 0)
+                if (!int.TryParse(splitGridArea[1], out int gridHeight) || gridHeight <= 0)
                 {
                     ShowErrorText("Error: Invalid grid height value! Try again with a integer number bigger than zero.");
                     continue;
                 }
 
                 Console.WriteLine($"@=@=@=@=@=@=@=@=@ GRID = {gridWidth}x{gridHeight} @=@=@=@=@=@=@=@=@");
-                ShowXPositionText();
-                int initialX;
-                if (!int.TryParse(Console.ReadLine(), out initialX) || initialX < 0)
+
+
+                ShowInitialPositionText();
+                string initialPosition = Console.ReadLine();
+                string[] splitInitialPosition = initialPosition.Split(' ');
+
+                if (splitInitialPosition.Length != 3)
+                {
+                    ShowErrorText("Error: Invalid number of arguments. Try again with the Formula = X Y Direction.");
+                    continue;
+                }
+
+                if (!int.TryParse(splitInitialPosition[0], out int initialX) || initialX < 0)
                 {
                     ShowErrorText("Error: Invalid initial X Position! Try again with a positive integer number.");
                     continue;
                 }
 
-                ShowYPositionText();
-                int initialY;
-                if (!int.TryParse(Console.ReadLine(), out initialY) || initialY < 0)
+                if (!int.TryParse(splitInitialPosition[1], out int initialY) || initialY < 0)
                 {
                     ShowErrorText("Error: Invalid initial X Position! Try again with a positive integer number.");
                     continue;
                 }
 
-                ShowFacingDirectionText();
-                string initialDirection = Console.ReadLine().ToUpperInvariant();
+                string initialDirection = splitInitialPosition[2].ToUpperInvariant();
 
-                if (initialDirection != "N" && initialDirection != "s" && initialDirection != "L" && initialDirection != "O")
+                if (initialDirection != "N" && initialDirection != "S" && initialDirection != "L" && initialDirection != "O")
                 {
                     ShowErrorText("Error: Invalid operation type! Try again with a valid option.");
                     continue;
                 }
+
 
                 Robot robot = new Robot(initialX, initialY, initialDirection);
                 Console.WriteLine("New robot initialized with values:" + robot.AtributesToString());
